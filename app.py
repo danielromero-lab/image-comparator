@@ -14,14 +14,14 @@ with col1:
     file1 = st.file_uploader("Upload first image", type=["png", "jpg", "jpeg", "webp"], key="img1")
     if file1:
         img1 = Image.open(file1).convert("RGB")
-        st.image(img1, use_container_width=True)
+        st.image(img1, width=300)
 
 with col2:
     st.subheader("Image 2")
     file2 = st.file_uploader("Upload second image", type=["png", "jpg", "jpeg", "webp"], key="img2")
     if file2:
         img2 = Image.open(file2).convert("RGB")
-        st.image(img2, use_container_width=True)
+        st.image(img2, width=300)
 
 st.divider()
 
