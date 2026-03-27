@@ -73,4 +73,4 @@ if compare_btn:
     st.divider()
     st.subheader("Difference Map")
     st.caption("Brighter areas = bigger differences. Black areas = identical pixels.")
-    st.image(diff_img, use_container_width=True)
+    st.image(diff_img, width=300)
