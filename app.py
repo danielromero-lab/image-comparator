@@ -10,18 +10,20 @@ st.markdown("Upload two images to compare them pixel by pixel.")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.subheader("Image 1")
-    file1 = st.file_uploader("Upload first image", type=["png", "jpg", "jpeg", "webp"], key="img1")
-    if file1:
-        img1 = Image.open(file1).convert("RGB")
-        st.image(img1, use_container_width=True)
+    with st.container(border=True):
+        st.subheader("Image 1")
+        file1 = st.file_uploader("Upload first image", type=["png", "jpg", "jpeg", "webp"], key="img1")
+        if file1:
+            img1 = Image.open(file1).convert("RGB")
+            st.image(img1, use_container_width=True)
 
 with col2:
-    st.subheader("Image 2")
-    file2 = st.file_uploader("Upload second image", type=["png", "jpg", "jpeg", "webp"], key="img2")
-    if file2:
-        img2 = Image.open(file2).convert("RGB")
-        st.image(img2, use_container_width=True)
+    with st.container(border=True):
+        st.subheader("Image 2")
+        file2 = st.file_uploader("Upload second image", type=["png", "jpg", "jpeg", "webp"], key="img2")
+        if file2:
+            img2 = Image.open(file2).convert("RGB")
+            st.image(img2, use_container_width=True)
 
 with col3:
     st.subheader("Results")
@@ -50,17 +52,22 @@ with col3:
         diff_amplified = np.clip(diff * 3, 0, 255).astype(np.uint8)
         diff_img = Image.fromarray(diff_amplified)
 
-        st.metric(label="Different Pixels", value=f"{pixel_pct}%")
-        st.caption(
-            "Percentage of pixels that have **any** color difference. "
-            "0% = identical, 100% = every pixel differs."
-        )
-
-        st.metric(label="Intensity Difference", value=f"{intensity_pct}%")
-        st.caption(
-            "Average **magnitude** of color change. "
-            "Low % = subtle shifts. High % = dramatic differences."
-        )
+        # Metrics side by side
+        m1, m2 = st.columns(2)
+        with m1:
+            st.metric(label="Different Pixels", value=f"{pixel_pct:.2f}%")
+            with st.expander("What is this?"):
+                st.caption(
+                    "Percentage of pixels that have **any** color difference. "
+                    "0% = identical images, 100% = every pixel differs."
+                )
+        with m2:
+            st.metric(label="Intensity Diff", value=f"{intensity_pct:.2f}%")
+            with st.expander("What is this?"):
+                st.caption(
+                    "Average **magnitude** of color change across all pixels. "
+                    "Low % = subtle shifts. High % = dramatic differences."
+                )
 
         st.markdown("**Difference Map**")
         st.caption("Brighter = bigger differences. Black = identical pixels.")
